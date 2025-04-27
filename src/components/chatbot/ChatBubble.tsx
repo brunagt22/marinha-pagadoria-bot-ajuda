@@ -26,13 +26,11 @@ const ChatBubble = () => {
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           "flex items-center justify-center p-4 rounded-full text-white shadow-lg",
-          "transition-all duration-300",
-          "hover:scale-105",
+          "transition-colors",
           "focus:outline-none focus:ring-2 focus:ring-navy-300 focus:ring-offset-2",
-          "animate-bounce-in",
           isOpen 
             ? "bg-red-500 hover:bg-red-600" 
-            : "bg-gradient-to-r from-navy-500 to-navy-700 hover:from-navy-600 hover:to-navy-800"
+            : "bg-gradient-to-r from-navy-500 to-navy-700"
         )}
       >
         {isOpen ? (

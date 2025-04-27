@@ -1,11 +1,9 @@
-
 import { useState } from "react";
-import { X, Send, ChevronRight, ArrowLeft } from "lucide-react";
+import { X, Send, ChevronRight, ArrowLeft, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import marinaLogo from "/public/marinha-logo.png";
 
 // Mock data de perguntas frequentes
 const FREQUENT_QUESTIONS = [
@@ -81,7 +79,6 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
     setSelectedQuestion(id);
     
     if (question?.answer === null) {
-      // Se for "Outras dúvidas", vamos direto para criação de chamado
       handleCreateTicket();
     } else {
       setStep('question-answered');
@@ -160,27 +157,52 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
     </Button>
   );
 
+  const resetChat = () => {
+    setStep('welcome');
+    setSelectedQuestion(null);
+    setTicketInfo({
+      email: '',
+      password: '',
+      type: '',
+      category: '',
+      receiveEmailUpdates: false,
+      notificationEmail: '',
+      title: '',
+      description: ''
+    });
+  };
+
   return (
     <div className="flex flex-col h-[600px]">
       {/* Header */}
       <div className="px-4 py-3 bg-gradient-to-r from-navy-700 to-navy-900 text-white flex items-center justify-between">
         <div className="flex items-center">
           <img 
-            src="/placeholder.svg" 
-            alt="Marinha Logo" 
-            className="h-8 w-8 mr-3 bg-white p-1 rounded-full"
+            src="/lovable-uploads/6cb6a548-72a3-4922-866c-6238d2d02be1.png" 
+            alt="PAPEM Logo" 
+            className="h-8 w-8 mr-3"
           />
           <div>
             <h3 className="font-semibold">Assistente PAPEM</h3>
             <p className="text-xs opacity-80">Pagadoria de Pessoal da Marinha</p>
           </div>
         </div>
-        <button 
-          onClick={onClose}
-          className="text-white/80 hover:text-white"
-        >
-          <X className="h-5 w-5" />
-        </button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={resetChat}
+            className="text-white/80 hover:text-white"
+          >
+            <RefreshCw className="h-5 w-5" />
+          </Button>
+          <button 
+            onClick={onClose}
+            className="text-white/80 hover:text-white"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
       </div>
 
       {/* Content */}
@@ -190,7 +212,7 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
             <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
               <p className="font-medium text-navy-900">Olá! Como posso ajudar?</p>
               <p className="text-sm text-gray-600 mt-1">
-                Selecione uma das opções abaixo ou escreva sua dúvida.
+                Selecione uma das opções abaixo ou abra um chamado.
               </p>
             </div>
 
@@ -207,23 +229,12 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
               ))}
             </div>
 
-            <div className="flex items-center gap-2 mt-4">
-              <Input 
-                type="text" 
-                placeholder="Ou digite sua dúvida aqui..."
-                value={customInput}
-                onChange={(e) => setCustomInput(e.target.value)} 
-                className="bg-white"
-              />
-              <Button 
-                type="submit" 
-                size="icon"
-                className="bg-navy-600 hover:bg-navy-700"
-                disabled={!customInput.trim()}
-              >
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
+            <Button 
+              onClick={handleCreateTicket}
+              className="bg-navy-600 hover:bg-navy-700 w-full"
+            >
+              Abrir chamado no helpdesk
+            </Button>
           </div>
         )}
 
@@ -513,30 +524,28 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
               <p className="text-gray-600 mt-2 mb-4">
                 Seu chamado foi registrado com o número <span className="font-semibold">#{Math.floor(Math.random() * 100000)}</span>
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 mb-6">
                 {ticketInfo.receiveEmailUpdates && (
                   <>Você receberá atualizações no e-mail: <span className="font-medium">{ticketInfo.notificationEmail}</span></>
                 )}
               </p>
-              <Button 
-                onClick={() => {
-                  setStep('welcome');
-                  setSelectedQuestion(null);
-                  setTicketInfo({
-                    email: '',
-                    password: '',
-                    type: '',
-                    category: '',
-                    receiveEmailUpdates: false,
-                    notificationEmail: '',
-                    title: '',
-                    description: ''
-                  });
-                }}
-                className="mt-6 bg-navy-600 hover:bg-navy-700"
-              >
-                Voltar ao início
-              </Button>
+              <p className="text-sm text-gray-600 mb-4">
+                Posso ajudar com mais alguma coisa?
+              </p>
+              <div className="flex gap-3 justify-center">
+                <Button 
+                  onClick={resetChat}
+                  className="bg-navy-600 hover:bg-navy-700"
+                >
+                  Nova consulta
+                </Button>
+                <Button 
+                  onClick={onClose}
+                  variant="outline"
+                >
+                  Finalizar
+                </Button>
+              </div>
             </div>
           </div>
         )}
