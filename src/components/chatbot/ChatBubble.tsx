@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { X, MessageCircle } from "lucide-react";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Chatbot from "./Chatbot";
 
@@ -29,7 +29,7 @@ const ChatBubble = () => {
           "transition-colors",
           "focus:outline-none focus:ring-2 focus:ring-navy-300 focus:ring-offset-2",
           isOpen 
-            ? "bg-red-500 hover:bg-red-600" 
+            ? "bg-red-500" 
             : "bg-gradient-to-r from-navy-500 to-navy-700"
         )}
       >
