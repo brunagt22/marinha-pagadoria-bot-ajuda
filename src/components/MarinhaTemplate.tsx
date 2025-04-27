@@ -1,6 +1,9 @@
 
 import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { Menu, Search } from 'lucide-react';
+import { Input } from './ui/input';
+import { Button } from './ui/button';
 
 interface MarinhaTemplateProps {
   children: ReactNode;
@@ -10,48 +13,92 @@ interface MarinhaTemplateProps {
 const MarinhaTemplate = ({ children, className }: MarinhaTemplateProps) => {
   return (
     <div className={cn("min-h-screen flex flex-col", className)}>
-      {/* Header */}
-      <header className="bg-navy-900 text-white py-3">
-        <div className="container mx-auto px-4 flex items-center justify-between">
-          <div className="flex items-center space-x-6">
-            <div className="flex items-center">
-              <img 
-                src="/placeholder.svg" 
-                alt="Marinha do Brasil" 
-                className="h-12 w-12 bg-white p-1 rounded" 
-              />
-              <div className="ml-3">
-                <h1 className="font-semibold text-xl">PAPEM</h1>
-                <p className="text-xs opacity-80">Pagadoria de Pessoal da Marinha</p>
+      {/* Top gov.br bar */}
+      <div className="bg-navy-900 text-white">
+        <div className="container mx-auto px-4 py-1 flex justify-between items-center text-xs">
+          <a href="https://gov.br" className="text-white/90 hover:text-white">
+            gov.br
+          </a>
+          <div className="flex items-center gap-4">
+            <a href="#" className="text-white/90 hover:text-white">ACESSO À INFORMAÇÃO</a>
+            <a href="#" className="text-white/90 hover:text-white">PARTICIPE</a>
+            <a href="#" className="text-white/90 hover:text-white">LEGISLAÇÃO</a>
+            <a href="#" className="text-white/90 hover:text-white">ÓRGÃOS DO GOVERNO</a>
+          </div>
+        </div>
+      </div>
+
+      {/* Secondary nav */}
+      <div className="bg-gray-100 border-b">
+        <div className="container mx-auto px-4 py-1 flex justify-between items-center text-xs">
+          <div className="flex items-center gap-4">
+            <a href="#" className="text-gray-600 hover:text-gray-900">MINISTÉRIO DA DEFESA</a>
+            <a href="#" className="text-gray-600 hover:text-gray-900">EXÉRCITO</a>
+            <a href="#" className="text-gray-600 hover:text-gray-900">FORÇA AÉREA</a>
+            <a href="#" className="text-gray-600 hover:text-gray-900">OUVIDORIA</a>
+            <a href="#" className="text-gray-600 hover:text-gray-900">ÁREA DE IMPRENSA</a>
+          </div>
+          <div className="flex items-center gap-4">
+            <a href="#" className="text-gray-600 hover:text-gray-900">ACESSIBILIDADE</a>
+            <a href="#" className="text-gray-600 hover:text-gray-900">MAPA DO SITE</a>
+            <a href="#" className="text-gray-600 hover:text-gray-900">ALTO CONTRASTE</a>
+          </div>
+        </div>
+      </div>
+
+      {/* Main header */}
+      <header className="bg-white py-4 border-b">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+              </Button>
+              
+              <div className="flex items-center">
+                <img 
+                  src="/lovable-uploads/6cb6a548-72a3-4922-866c-6238d2d02be1.png" 
+                  alt="PAPEM" 
+                  className="h-16 w-16"
+                />
+                <div className="ml-4">
+                  <h1 className="text-2xl font-bold text-navy-900">PAGADORIA DE PESSOAL DA MARINHA</h1>
+                  <p className="text-sm text-gray-600">"ORDEM, PRONTIDÃO E REGULARIDADE"</p>
+                </div>
               </div>
             </div>
-            
-            <nav className="hidden md:flex space-x-6">
-              <a href="#" className="text-sm hover:text-navy-100">Página Inicial</a>
-              <a href="#" className="text-sm hover:text-navy-100">Institucional</a>
-              <a href="#" className="text-sm hover:text-navy-100">Serviços</a>
-              <a href="#" className="text-sm hover:text-navy-100">Contato</a>
-            </nav>
-          </div>
 
-          <div className="flex items-center">
-            <a href="#" className="text-sm px-3 py-2 rounded bg-navy-700 hover:bg-navy-600">
-              Área Restrita
-            </a>
+            <div className="relative w-96">
+              <Input 
+                type="search"
+                placeholder="O que você procura?"
+                className="pr-10 bg-gray-50"
+              />
+              <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Sub header with breadcrumbs */}
-      <div className="bg-navy-700 text-white py-2">
+      {/* Navigation */}
+      <nav className="bg-white shadow-sm">
         <div className="container mx-auto px-4">
-          <div className="flex text-sm">
-            <a href="#" className="text-navy-100 hover:text-white">Início</a>
-            <span className="mx-2">›</span>
-            <span>Pagamentos</span>
+          <div className="flex gap-6">
+            <div className="flex items-center gap-2 py-4 px-6 cursor-pointer hover:bg-gray-50">
+              <span className="text-green-600">📰</span>
+              <span className="text-gray-700">Notícias</span>
+            </div>
+            <div className="flex items-center gap-2 py-4 px-6 cursor-pointer hover:bg-gray-50">
+              <span className="text-yellow-500">⭐</span>
+              <span className="text-gray-700">Transparência Pública</span>
+            </div>
+            <div className="flex items-center gap-2 py-4 px-6 cursor-pointer hover:bg-gray-50">
+              <span className="text-red-500">🔥</span>
+              <span className="text-gray-700">Links úteis</span>
+            </div>
           </div>
         </div>
-      </div>
+      </nav>
 
       {/* Main content */}
       <main className="flex-grow bg-gray-50">
@@ -61,7 +108,7 @@ const MarinhaTemplate = ({ children, className }: MarinhaTemplateProps) => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-navy-900 text-white py-6">
+      <footer className="bg-navy-900 text-white py-8">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
@@ -93,10 +140,6 @@ const MarinhaTemplate = ({ children, className }: MarinhaTemplateProps) => {
                 <li><a href="#" className="text-sm text-gray-300 hover:text-white">Governo Federal</a></li>
               </ul>
             </div>
-          </div>
-          
-          <div className="mt-8 pt-4 border-t border-navy-700 text-center text-sm text-gray-400">
-            <p>© {new Date().getFullYear()} PAPEM - Marinha do Brasil. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>

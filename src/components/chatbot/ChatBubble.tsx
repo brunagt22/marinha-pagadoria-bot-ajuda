@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { HelpCircle, X, MessageCircle } from "lucide-react";
+import { X, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Chatbot from "./Chatbot";
 
@@ -39,7 +39,11 @@ const ChatBubble = () => {
           <X className="w-6 h-6" />
         ) : (
           <div className="flex items-center">
-            <MessageCircle className="w-6 h-6 mr-2" />
+            <img 
+              src="/lovable-uploads/af9fdefd-cf6e-408a-8b63-3f1afe6ab16c.png" 
+              alt="PAPEM Mascote"
+              className="w-8 h-8 mr-2"
+            />
             <span className="text-sm font-medium">Como posso ajudar?</span>
           </div>
         )}
