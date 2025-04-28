@@ -21,12 +21,11 @@ const ChatBubble = () => {
         <Chatbot onClose={() => setIsOpen(false)} />
       </div>
 
-      {/* Chat bubble button - Now always visible without hover effect */}
+      {/* Chat bubble button - Fixed styling without hover effect */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           "flex items-center justify-center p-4 rounded-full text-white shadow-lg",
-          "transition-colors",
           "focus:outline-none focus:ring-2 focus:ring-navy-300 focus:ring-offset-2",
           isOpen 
             ? "bg-red-500" 

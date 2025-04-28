@@ -102,6 +102,23 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
     });
   };
 
+  const handleBack = () => {
+    if (step === 'question-answered') {
+      setStep('welcome');
+      setSelectedQuestion(null);
+    }
+    else if (step === 'login') {
+      setSelectedQuestion(null);
+      setStep('welcome');
+    }
+    else if (step === 'ticket-type') setStep('login');
+    else if (step === 'ticket-category') setStep('ticket-type');
+    else if (step === 'ticket-email') setStep('ticket-category');
+    else if (step === 'ticket-title') setStep('ticket-email');
+    else if (step === 'ticket-description') setStep('ticket-title');
+    else if (step === 'ticket-submitted') resetChat();
+  };
+
   return (
     <div className="flex flex-col h-[600px]">
       {/* Header */}
@@ -132,25 +149,13 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
       {/* Content */}
       <div className="flex-grow overflow-y-auto p-4 bg-gray-50">
         <div className="relative">
-          {/* Back button shown on every step */}
+          {/* Back button shown on every step except welcome */}
           {step !== 'welcome' && (
             <Button
               variant="ghost"
               size="sm"
-              className="absolute top-2 left-2"
-              onClick={() => {
-                if (step === 'question-answered') setStep('welcome');
-                else if (step === 'login') {
-                  setSelectedQuestion(null);
-                  setStep('welcome');
-                }
-                else if (step === 'ticket-type') setStep('login');
-                else if (step === 'ticket-category') setStep('ticket-type');
-                else if (step === 'ticket-email') setStep('ticket-category');
-                else if (step === 'ticket-title') setStep('ticket-email');
-                else if (step === 'ticket-description') setStep('ticket-title');
-                else if (step === 'ticket-submitted') resetChat();
-              }}
+              className="mb-4 flex items-center"
+              onClick={handleBack}
             >
               <ArrowLeft className="h-4 w-4 mr-1" /> Voltar
             </Button>
