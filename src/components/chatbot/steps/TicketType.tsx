@@ -21,7 +21,7 @@ const TicketType = ({ types, onSelectType }: TicketTypeProps) => {
             <button
               key={type}
               onClick={() => onSelectType(type)}
-              className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 flex items-center justify-between hover:bg-gray-100 transition-colors text-left"
+              className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 flex items-center justify-between text-left"
             >
               <span className="text-sm font-medium text-gray-800">{type}</span>
               <ChevronRight className="h-4 w-4 text-gray-400" />

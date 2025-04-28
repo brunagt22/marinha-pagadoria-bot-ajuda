@@ -207,7 +207,7 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
                     <button
                       key={category}
                       onClick={() => handleSelectCategory(category)}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 flex items-center justify-between hover:bg-gray-100 transition-colors text-left"
+                      className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 flex items-center justify-between text-left"
                     >
                       <span className="text-sm font-medium text-gray-800">{category}</span>
                       <ArrowLeft className="h-4 w-4 text-gray-400" />
@@ -259,7 +259,7 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
 
                   <Button 
                     type="submit" 
-                    className="bg-navy-600 hover:bg-navy-700 w-full"
+                    className="bg-navy-600 w-full"
                   >
                     Continuar
                   </Button>
@@ -294,7 +294,7 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
                           key={title}
                           type="button"
                           onClick={() => setTicketInfo({...ticketInfo, title})}
-                          className="block w-full text-left text-sm bg-gray-50 p-2 rounded border border-gray-200 hover:bg-gray-100"
+                          className="block w-full text-left text-sm bg-gray-50 p-2 rounded border border-gray-200"
                         >
                           {title}
                         </button>
@@ -304,7 +304,7 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
 
                   <Button 
                     type="submit" 
-                    className="bg-navy-600 hover:bg-navy-700 w-full"
+                    className="bg-navy-600 w-full"
                     disabled={!ticketInfo.title.trim()}
                   >
                     Continuar
@@ -335,7 +335,7 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
 
                   <Button 
                     type="submit" 
-                    className="bg-navy-600 hover:bg-navy-700 w-full"
+                    className="bg-navy-600 w-full"
                     disabled={!ticketInfo.description.trim()}
                   >
                     Enviar chamado
@@ -363,7 +363,7 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
         <Button 
           variant="ghost" 
           size="sm" 
-          className="text-navy-600 hover:bg-gray-100"
+          className="text-navy-600"
           onClick={resetChat}
         >
           <RefreshCw className="h-4 w-4 mr-1" /> Reiniciar chat

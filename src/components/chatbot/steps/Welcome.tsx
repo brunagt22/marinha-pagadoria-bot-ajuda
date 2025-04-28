@@ -29,7 +29,7 @@ const Welcome = ({ questions, onSelectQuestion, onCreateTicket }: WelcomeProps) 
           <button
             key={q.id}
             onClick={() => onSelectQuestion(q.id)}
-            className="w-full bg-white border border-gray-200 rounded-lg p-3 flex items-center justify-between hover:bg-gray-50 transition-colors text-left"
+            className="w-full bg-white border border-gray-200 rounded-lg p-3 flex items-center justify-between text-left"
           >
             <span className="text-sm font-medium text-gray-800">{q.question}</span>
             <ChevronRight className="h-4 w-4 text-gray-400" />

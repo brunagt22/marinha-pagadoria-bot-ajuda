@@ -23,7 +23,7 @@ const QuestionAnswered = ({ question, answer, onCreateTicket }: QuestionAnswered
           <p className="text-sm text-gray-600 mb-2">Sua dúvida não foi resolvida?</p>
           <Button 
             onClick={onCreateTicket}
-            className="bg-navy-600 hover:bg-navy-700 w-full"
+            className="bg-navy-600 w-full"
           >
             Abrir chamado no helpdesk
           </Button>
