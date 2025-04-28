@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,7 +29,6 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
     title: '',
     description: ''
   });
-  const [customInput, setCustomInput] = useState('');
 
   const handleSelectQuestion = (id: string) => {
     const question = FREQUENT_QUESTIONS.find(q => q.id === id);
@@ -88,28 +87,6 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
     return FREQUENT_QUESTIONS.find(q => q.id === selectedQuestion);
   };
 
-  const renderBackButton = () => (
-    <Button
-      variant="ghost"
-      size="sm"
-      className="absolute top-2 left-2"
-      onClick={() => {
-        if (step === 'question-answered') setStep('welcome');
-        else if (step === 'login') {
-          setSelectedQuestion(null);
-          setStep('welcome');
-        }
-        else if (step === 'ticket-type') setStep('login');
-        else if (step === 'ticket-category') setStep('ticket-type');
-        else if (step === 'ticket-email') setStep('ticket-category');
-        else if (step === 'ticket-title') setStep('ticket-email');
-        else if (step === 'ticket-description') setStep('ticket-title');
-      }}
-    >
-      <ArrowLeft className="h-4 w-4 mr-1" /> Voltar
-    </Button>
-  );
-
   const resetChat = () => {
     setStep('welcome');
     setSelectedQuestion(null);
@@ -140,12 +117,44 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
             <p className="text-xs opacity-80">Pagadoria de Pessoal da Marinha</p>
           </div>
         </div>
+        
+        {/* Reset button in header */}
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="text-white hover:bg-navy-600"
+          onClick={resetChat}
+        >
+          <RefreshCw className="h-4 w-4 mr-1" /> Reiniciar
+        </Button>
       </div>
 
       {/* Content */}
       <div className="flex-grow overflow-y-auto p-4 bg-gray-50">
         <div className="relative">
-          {step !== 'welcome' && step !== 'ticket-submitted' && renderBackButton()}
+          {/* Back button shown on every step */}
+          {step !== 'welcome' && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="absolute top-2 left-2"
+              onClick={() => {
+                if (step === 'question-answered') setStep('welcome');
+                else if (step === 'login') {
+                  setSelectedQuestion(null);
+                  setStep('welcome');
+                }
+                else if (step === 'ticket-type') setStep('login');
+                else if (step === 'ticket-category') setStep('ticket-type');
+                else if (step === 'ticket-email') setStep('ticket-category');
+                else if (step === 'ticket-title') setStep('ticket-email');
+                else if (step === 'ticket-description') setStep('ticket-title');
+                else if (step === 'ticket-submitted') resetChat();
+              }}
+            >
+              <ArrowLeft className="h-4 w-4 mr-1" /> Voltar
+            </Button>
+          )}
 
           {step === 'welcome' && (
             <Welcome 
@@ -341,14 +350,20 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
         </div>
       </div>
 
-      {/* Footer with controlled visibility */}
-      {step === 'welcome' && (
-        <div className="p-3 border-t border-gray-100 text-center bg-white">
-          <p className="text-xs text-gray-500">
-            PAPEM - Pagadoria de Pessoal da Marinha
-          </p>
-        </div>
-      )}
+      {/* Footer with reset button instead of just text */}
+      <div className="p-3 border-t border-gray-100 flex justify-between items-center bg-white">
+        <p className="text-xs text-gray-500">
+          PAPEM - Pagadoria de Pessoal da Marinha
+        </p>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="text-navy-600 hover:bg-gray-100"
+          onClick={resetChat}
+        >
+          <RefreshCw className="h-4 w-4 mr-1" /> Reiniciar chat
+        </Button>
+      </div>
     </div>
   );
 };

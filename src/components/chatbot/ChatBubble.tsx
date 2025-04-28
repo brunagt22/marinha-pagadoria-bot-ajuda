@@ -21,7 +21,7 @@ const ChatBubble = () => {
         <Chatbot onClose={() => setIsOpen(false)} />
       </div>
 
-      {/* Chat bubble button */}
+      {/* Chat bubble button - Now always visible without hover effect */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
