@@ -1,49 +1,82 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { ThumbsUp, ThumbsDown } from "lucide-react";
 
 interface TicketSubmittedProps {
   ticketInfo: {
-    receiveEmailUpdates: boolean;
-    notificationEmail: string;
+    title: string;
+    category: string;
+    type: string;
   };
   onReset: () => void;
   onClose: () => void;
 }
 
 const TicketSubmitted = ({ ticketInfo, onReset, onClose }: TicketSubmittedProps) => {
+  const [feedbackGiven, setFeedbackGiven] = useState(false);
+  const [isSatisfied, setIsSatisfied] = useState<boolean | null>(null);
+
+  const handleFeedback = (satisfied: boolean) => {
+    setIsSatisfied(satisfied);
+    setFeedbackGiven(true);
+    // Aqui você pode enviar o feedback para o backend
+    console.log('Feedback:', satisfied ? 'Satisfeito' : 'Insatisfeito');
+  };
+
   return (
-    <div className="animate-fade-in">
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 text-center">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Check className="w-8 h-8 text-green-500" />
+    <div className="space-y-6 animate-fade-in">
+      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+        <h3 className="font-semibold text-green-800">Chamado aberto com sucesso!</h3>
+        <p className="text-sm text-green-700 mt-1">
+          Seu chamado foi registrado e será atendido em breve.
+        </p>
+        <div className="mt-4 space-y-1 text-sm text-green-700">
+          <p><strong>Categoria:</strong> {ticketInfo.category}</p>
+          <p><strong>Tipo:</strong> {ticketInfo.type}</p>
+          <p><strong>Título:</strong> {ticketInfo.title}</p>
         </div>
-        <h3 className="text-lg font-semibold text-gray-900">Chamado enviado com sucesso!</h3>
-        <p className="text-gray-600 mt-2 mb-4">
-          Seu chamado foi registrado com o número <span className="font-semibold">#{Math.floor(Math.random() * 100000)}</span>
-        </p>
-        <p className="text-sm text-gray-500 mb-6">
-          {ticketInfo.receiveEmailUpdates && (
-            <>Você receberá atualizações no e-mail: <span className="font-medium">{ticketInfo.notificationEmail}</span></>
-          )}
-        </p>
-        <p className="text-sm text-gray-600 mb-4">
-          Posso ajudar com mais alguma coisa?
-        </p>
-        <div className="flex gap-3 justify-center">
-          <Button 
-            onClick={onReset}
-            className="bg-navy-600 hover:bg-navy-700"
-          >
-            Nova consulta
-          </Button>
-          <Button 
-            onClick={onClose}
-            variant="outline"
-          >
-            Finalizar
-          </Button>
+      </div>
+
+      {!feedbackGiven ? (
+        <div className="text-center space-y-4">
+          <p className="text-sm text-gray-600">Como você avalia o atendimento?</p>
+          <div className="flex justify-center gap-4">
+            <Button
+              variant="outline"
+              onClick={() => handleFeedback(true)}
+              className="flex items-center gap-2"
+            >
+              <ThumbsUp className="h-4 w-4" />
+              Satisfeito
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => handleFeedback(false)}
+              className="flex items-center gap-2"
+            >
+              <ThumbsDown className="h-4 w-4" />
+              Insatisfeito
+            </Button>
+          </div>
         </div>
+      ) : (
+        <div className="text-center">
+          <p className="text-sm text-gray-600">
+            {isSatisfied 
+              ? "Obrigado pelo feedback positivo!" 
+              : "Agradecemos seu feedback. Vamos trabalhar para melhorar."}
+          </p>
+        </div>
+      )}
+
+      <div className="flex gap-3">
+        <Button onClick={onReset} className="flex-1 bg-navy-600">
+          Iniciar nova conversa
+        </Button>
+        <Button onClick={onClose} variant="outline" className="flex-1">
+          Fechar chat
+        </Button>
       </div>
     </div>
   );

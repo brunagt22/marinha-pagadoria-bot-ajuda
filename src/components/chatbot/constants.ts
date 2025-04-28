@@ -1,4 +1,3 @@
-
 export const FREQUENT_QUESTIONS = [
   { 
     id: "pagamento", 
@@ -7,8 +6,9 @@ export const FREQUENT_QUESTIONS = [
   },
   { 
     id: "contracheque", 
-    question: "Como acessar contracheque", 
-    answer: "Para acessar seu contracheque, faça login no sistema BP Online com suas credenciais ZIMBRA/SCORE." 
+    question: "Como faço para ter acesso ao contracheque?", 
+    answer: "Para acessar seu contracheque, acesse o BP Online através do portal PAPEM usando suas credenciais. No menu principal, selecione a opção 'Bilhete de Pagamento'.",
+    keywords: ["bp", "bilhete", "pagamento", "salário", "holerite", "demonstrativo", "folha"]
   },
   { 
     id: "alteracao", 
@@ -16,9 +16,10 @@ export const FREQUENT_QUESTIONS = [
     answer: "Para alterar seus dados bancários, você deve enviar um requerimento ao seu órgão de vinculação com os novos dados." 
   },
   { 
-    id: "irpf", 
-    question: "Comprovante de rendimentos para IR", 
-    answer: "Os comprovantes de rendimentos são disponibilizados anualmente até o final de fevereiro no sistema BP Online." 
+    id: "ir", 
+    question: "Onde encontro meu comprovante de rendimentos para IR?", 
+    answer: "O comprovante de rendimentos está disponível no BP Online. Acesse o portal PAPEM, entre no BP Online e procure a opção 'Comprovante de Rendimentos' no menu.",
+    keywords: ["imposto", "renda", "declaração", "informe", "tributação"]
   },
   { 
     id: "outros", 
@@ -67,3 +68,10 @@ export type ChatStep =
   | 'ticket-title'
   | 'ticket-description'
   | 'ticket-submitted';
+
+export interface FrequentQuestion {
+  id: string;
+  question: string;
+  answer: string | null;
+  keywords?: string[];
+}
