@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ArrowLeft, RefreshCw, MessageSquare } from "lucide-react";
+import { ArrowLeft, RefreshCw, MessageSquare, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
