@@ -1,5 +1,5 @@
 
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, useEffect } from "react";
 import { ChevronRight, Search, TicketPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,27 @@ interface WelcomeProps {
 const Welcome = ({ questions, onSelectQuestion, onCreateTicket, onSendMessage }: WelcomeProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [userMessages, setUserMessages] = useState<{message: string, isUser: boolean}[]>([]);
+
+  useEffect(() => {
+    // Listen for the custom event to directly trigger ticket creation
+    const handleOpenTicket = () => {
+      onCreateTicket();
+    };
+    
+    document.addEventListener('openTicket', handleOpenTicket);
+    
+    // Initial welcome message
+    setTimeout(() => {
+      setUserMessages([{
+        message: "Olá! Sou o assistente virtual da PAPEM. Como posso ajudar? Você pode digitar sua pergunta ou escolher uma das opções abaixo.",
+        isUser: false
+      }]);
+    }, 500);
+    
+    return () => {
+      document.removeEventListener('openTicket', handleOpenTicket);
+    };
+  }, [onCreateTicket]);
 
   const filteredQuestions = questions.filter(q => 
     q.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -56,16 +77,25 @@ const Welcome = ({ questions, onSelectQuestion, onCreateTicket, onSendMessage }:
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-4 animate-fade-in">
       <div>
         <h3 className="font-semibold text-navy-900">Como posso ajudar?</h3>
         <p className="text-sm text-gray-600 mt-1">
           Digite sua dúvida ou selecione uma das opções abaixo
         </p>
 
+        {/* Always available "Open Ticket" button - now more prominent */}
+        <Button
+          onClick={onCreateTicket}
+          className="w-full bg-green-600 hover:bg-green-700 my-3 flex items-center justify-center"
+        >
+          <TicketPlus className="h-4 w-4 mr-2" />
+          Abrir chamado no helpdesk
+        </Button>
+
         {/* Chat messages */}
         {userMessages.length > 0 && (
-          <div className="mt-4 space-y-3 max-h-56 overflow-y-auto border border-gray-100 rounded-lg p-3 bg-gray-50">
+          <div className="mt-3 space-y-3 max-h-56 overflow-y-auto border border-gray-200 rounded-lg p-3 bg-gray-50">
             {userMessages.map((msg, index) => (
               <div key={index} className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[80%] px-3 py-2 rounded-lg ${msg.isUser ? 'bg-navy-600 text-white' : 'bg-white border border-gray-200'}`}>
@@ -76,7 +106,7 @@ const Welcome = ({ questions, onSelectQuestion, onCreateTicket, onSendMessage }:
           </div>
         )}
 
-        <div className="mt-4 relative">
+        <div className="mt-3 relative">
           <Input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -96,15 +126,6 @@ const Welcome = ({ questions, onSelectQuestion, onCreateTicket, onSendMessage }:
       </div>
 
       <div className="space-y-2">
-        {/* Always available "Open Ticket" button */}
-        <Button
-          onClick={onCreateTicket}
-          className="w-full bg-navy-600 mb-4 flex items-center justify-center"
-        >
-          <TicketPlus className="h-4 w-4 mr-2" />
-          Abrir chamado no helpdesk
-        </Button>
-
         {/* Filtered questions section */}
         {searchQuery.length > 0 && (
           <h4 className="text-sm font-medium text-gray-700 mt-2">Resultados da pesquisa:</h4>
@@ -124,7 +145,7 @@ const Welcome = ({ questions, onSelectQuestion, onCreateTicket, onSendMessage }:
               <button
                 key={q.id}
                 onClick={() => onSelectQuestion(q.id)}
-                className="w-full bg-white border border-gray-200 rounded-lg p-3 flex items-center justify-between text-left"
+                className="w-full bg-white border border-gray-200 rounded-lg p-3 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
               >
                 <span className="text-sm font-medium text-gray-800">{q.question}</span>
                 <ChevronRight className="h-4 w-4 text-gray-400" />
