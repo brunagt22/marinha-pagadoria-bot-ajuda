@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Chatbot from "./Chatbot";
 
@@ -21,7 +21,7 @@ const ChatBubble = () => {
         <Chatbot onClose={() => setIsOpen(false)} />
       </div>
 
-      {/* Chat bubble button - Fixed styling without hover effect */}
+      {/* Chat bubble button - No hover effect */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(

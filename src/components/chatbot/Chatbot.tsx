@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ArrowLeft, RefreshCw } from "lucide-react";
+import { ArrowLeft, RefreshCw, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,12 +11,14 @@ import QuestionAnswered from "./steps/QuestionAnswered";
 import Login from "./steps/Login";
 import TicketType from "./steps/TicketType";
 import TicketSubmitted from "./steps/TicketSubmitted";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ChatbotProps {
   onClose: () => void;
 }
 
 const Chatbot = ({ onClose }: ChatbotProps) => {
+  const { toast } = useToast();
   const [step, setStep] = useState<ChatStep>('welcome');
   const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
   const [ticketInfo, setTicketInfo] = useState({
@@ -27,7 +29,8 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
     receiveEmailUpdates: false,
     notificationEmail: '',
     title: '',
-    description: ''
+    description: '',
+    satisfaction: 0
   });
 
   const handleSelectQuestion = (id: string) => {
@@ -83,6 +86,27 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
     setStep('ticket-submitted');
   };
 
+  const handleSendMessage = (message: string) => {
+    // Here we would normally process the message with NLP
+    // For now, we'll just simulate a basic search
+    console.log("Processing message:", message);
+    // If needed, we can show a toast to indicate the message is being processed
+    toast({
+      title: "Processando sua mensagem",
+      description: "Estamos analisando sua solicitação...",
+      duration: 2000,
+    });
+  };
+
+  const submitFeedback = (satisfaction: number) => {
+    setTicketInfo(prev => ({ ...prev, satisfaction }));
+    toast({
+      title: "Feedback recebido",
+      description: `Obrigado por avaliar nosso atendimento com ${satisfaction} estrelas!`,
+      duration: 3000,
+    });
+  };
+
   const getSelectedQuestion = () => {
     return FREQUENT_QUESTIONS.find(q => q.id === selectedQuestion);
   };
@@ -98,7 +122,8 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
       receiveEmailUpdates: false,
       notificationEmail: '',
       title: '',
-      description: ''
+      description: '',
+      satisfaction: 0
     });
   };
 
@@ -166,6 +191,7 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
               questions={FREQUENT_QUESTIONS}
               onSelectQuestion={handleSelectQuestion}
               onCreateTicket={handleCreateTicket}
+              onSendMessage={handleSendMessage}
             />
           )}
 
@@ -174,6 +200,7 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
               question={getSelectedQuestion()!.question}
               answer={getSelectedQuestion()!.answer!}
               onCreateTicket={handleCreateTicket}
+              onSubmitFeedback={submitFeedback}
             />
           )}
 
@@ -210,7 +237,7 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
                       className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 flex items-center justify-between text-left"
                     >
                       <span className="text-sm font-medium text-gray-800">{category}</span>
-                      <ArrowLeft className="h-4 w-4 text-gray-400" />
+                      <ChevronRight className="h-4 w-4 text-gray-400" />
                     </button>
                   ))}
                 </div>
@@ -350,12 +377,13 @@ const Chatbot = ({ onClose }: ChatbotProps) => {
               ticketInfo={ticketInfo}
               onReset={resetChat}
               onClose={onClose}
+              onSubmitFeedback={submitFeedback}
             />
           )}
         </div>
       </div>
 
-      {/* Footer with reset button instead of just text */}
+      {/* Footer with reset button */}
       <div className="p-3 border-t border-gray-100 flex justify-between items-center bg-white">
         <p className="text-xs text-gray-500">
           PAPEM - Pagadoria de Pessoal da Marinha
